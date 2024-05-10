@@ -1,4 +1,5 @@
 import Container from "@/components/Container";
+import Input from "@/components/Input";
 import { GameProps } from "@/utils/types/game";
 import Image from "next/image";
 import Link from "next/link";
@@ -45,6 +46,7 @@ export default async function Home() {
             </div>
           </section>
         </Link>
+        <Input />
       </Container>
     </main>
   );
