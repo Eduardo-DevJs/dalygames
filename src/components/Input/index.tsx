@@ -25,7 +25,7 @@ export default function Input() {
         className="w-11/12 bg-slate-200 outline-none"
         type="text"
         placeholder="Procurando algum jogo?..."
-      />g
+      />
       <button>
         <FiSearch size={24} color="#ea580c" />
       </button>
