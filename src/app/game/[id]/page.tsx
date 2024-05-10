@@ -4,6 +4,7 @@ import Image from "next/image";
 import { redirect } from "next/navigation";
 import Label from "@/app/game/[id]/components/Label";
 import GameCard from "@/components/gameCard";
+import { Metadata } from "next";
 
 async function getData(id: string) {
   try {
@@ -14,6 +15,52 @@ async function getData(id: string) {
     return res.json();
   } catch (err) {
     throw new Error("Failed ti to fetch data");
+  }
+}
+
+interface PropsParams {
+  params: {
+    id: string;
+  };
+}
+
+export async function generateMetaData({
+  params,
+}: PropsParams): Promise<Metadata> {
+  try {
+    const response: GameProps = await fetch(
+      `${process.env.NEXT_API_URL}/next-api/?api=game&id=${params.id}`,
+      { next: { revalidate: 60 } }
+    )
+      .then((res) => res.json())
+      .catch(() => {
+        return {
+          title: "DalyGames - Descubra jogos incriveis para se divertir",
+        };
+      });
+
+    return {
+      title: response.title,
+      description: `${response.description.slice(0, 100)}...`,
+      openGraph: {
+        title: response.title,
+        images: [response.image_url],
+      },
+      robots: {
+        index: true,
+        follow: true,
+        nocache: true,
+        googleBot: {
+          index: true,
+          follow: true,
+          noimageindex: true,
+        },
+      },
+    };
+  } catch (err) {
+    return {
+      title: "DalyGames - Descubra jogos incriveis para se divertir",
+    };
   }
 }
 
