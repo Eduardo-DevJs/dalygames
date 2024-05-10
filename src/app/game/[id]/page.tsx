@@ -24,46 +24,6 @@ interface PropsParams {
   };
 }
 
-export async function generateMetaData({
-  params,
-}: PropsParams): Promise<Metadata> {
-  try {
-    const response: GameProps = await fetch(
-      `${process.env.NEXT_API_URL}/next-api/?api=game&id=${params.id}`,
-      { next: { revalidate: 60 } }
-    )
-      .then((res) => res.json())
-      .catch(() => {
-        return {
-          title: "DalyGames - Descubra jogos incriveis para se divertir",
-        };
-      });
-
-    return {
-      title: response.title,
-      description: `${response.description.slice(0, 100)}...`,
-      openGraph: {
-        title: response.title,
-        images: [response.image_url],
-      },
-      robots: {
-        index: true,
-        follow: true,
-        nocache: true,
-        googleBot: {
-          index: true,
-          follow: true,
-          noimageindex: true,
-        },
-      },
-    };
-  } catch (err) {
-    return {
-      title: "DalyGames - Descubra jogos incriveis para se divertir",
-    };
-  }
-}
-
 async function getDataSortedGame() {
   try {
     const res = await fetch(
