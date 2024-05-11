@@ -24,7 +24,7 @@ interface PropsParams {
   };
 }
 
-export async function generateMetaData({
+async function generateMetaData({
   params,
 }: PropsParams): Promise<Metadata> {
   try {
